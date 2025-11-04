@@ -1,9 +1,10 @@
 apiVersion: app/v1
 kind: Deployment
 metadata:
- name: myapp-replicaset
+ name: myapp-deployment
   labels:
-   app:
+   tier: frontend
+   app: nginx
 spec:
   selector:
     matchLabels:
