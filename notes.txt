@@ -1,1 +1,46 @@
 Kubernetes Notes!
+
+Uselful Commands
+ - kubectl 
+    #
+ - kubectl get all 
+    # provides basic info on all objects
+ - kubectl 
+    #
+ - kubectl start
+    #
+ - kubectl create -f <file.yaml>
+    # Will create based on params in specified yaml file.
+ - kubectl get pod(s)/node(s)/
+    # This gives basic info of whatever object you are trying to get info on pods/nodes/deployments/replicasets
+ - kubectl describe pod(s)/node(s)
+    #
+ - kubectl delete
+    #
+ - kubectl edit replicaset <name of replica set (NORS)>
+    # Will open config of replica set in editor 
+ - kubectl scale replicaset <NORS> --replicaset=2 
+    #scales RS to desired amount
+
+kubernetes structure
+
+nodes -> containers -> pods -> apps
+
+Kubernetes yaml Structure
+
+
+Replica Sets (RS)
+ - Can be used to maintain high availability
+ - yaml file that gives params that specifies # of replicas
+ - will generate new pods if actual # of pods does not = desired # of pods
+  ### RELATED COMMANDS ###
+  - kubectl edit replicaset <name of replica set (NORS)>
+      # Will open config of replica set in editor 
+  - kubectk scale replicaset <NORS> --replicaset=2 
+      #scales RS to desired amount
+
+Deployments
+ - yaml file similar to replica set but ' kind ' is Deployment instead of 
+  ### RELATED COMMANDS ###
+  - kubectl create -f <file.yaml>
+      # Will create based on params in specified yaml file.
