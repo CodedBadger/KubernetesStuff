@@ -5,22 +5,27 @@ Uselful Commands
     #
  - kubectl get all 
     # provides basic info on all objects
- - kubectl 
+
+ - kubectl apply -f <name of yaml file (NOYF)> 
+    # This will apply changes to params in yaml file
+
+ - kubectl set iamge <NOYF>
     #
+
  - kubectl start
     #
+
  - kubectl create -f <file.yaml>
     # Will create based on params in specified yaml file.
- - kubectl get pod(s)/node(s)/
+
+ - kubectl get <object> <name of object>
     # This gives basic info of whatever object you are trying to get info on pods/nodes/deployments/replicasets
- - kubectl describe pod(s)/node(s)
-    #
+
+ - kubectl describe <object> <name of object>
+    # This gives more detailed info of whatever object you are trying to get info on pods/nodes/deployments/replicasets
+
  - kubectl delete
     #
- - kubectl edit replicaset <name of replica set (NORS)>
-    # Will open config of replica set in editor 
- - kubectl scale replicaset <NORS> --replicaset=2 
-    #scales RS to desired amount
 
 kubernetes structure
 
@@ -39,8 +44,36 @@ Replica Sets (RS)
   - kubectk scale replicaset <NORS> --replicaset=2 
       #scales RS to desired amount
 
+
 Deployments
+ - Creates new rollouts which are call 'Revisions'
+  - Allows for rollout
  - yaml file similar to replica set but ' kind ' is Deployment instead of 
   ### RELATED COMMANDS ###
-  - kubectl create -f <file.yaml>
+    - kubectl create -f <file.yaml>
       # Will create based on params in specified yaml file.
+
+    ### STATUS  ### 
+    -kubectl rollout status <name of deployment>
+      # displays status of rollouts
+    -kubectl rollout history <name of deployment>
+      # Displays rollout history
+
+    ### UPDATES ###
+    - kubectl apply -f <NOYF>
+    - kubectl set image <NOYF> <image>=<image>:<version>
+
+    ### ROLLBACK ###
+    - kubectl rollout undo <NOYF>
+
+
+Networking
+ - Nodes have IPs
+  # pods have and interal network w/in node allowing pods to have comms with eachother
+ - Can ssh into nodes
+ 
+ - Cluster Networking
+  # Kubernetes does not automatically set up any networking and expects us to set it up
+    + containers/Pods can communicate to one another w/o NAT
+    + All nodes can communicate with all containers and vice versa without NAT
+
