@@ -3,6 +3,10 @@ Kubernetes Notes!
 Uselful Commands
  - kubectl 
     #
+ - kubectl edit <object> <name> 
+    # This will open a text editor in memory that has config info in a yaml format, FILE ISNT SAVED AFTER CONFIRMING CHANGES 
+ - kubectl replace  -f <filename>.yml 
+    # Opens yaml file and saves changes
  - kubectl get all 
     # provides basic info on all objects
 
@@ -15,6 +19,8 @@ Uselful Commands
  - kubectl start
     #
 
+ - kubectl create <object> <name> --<flags>
+    #
  - kubectl create -f <file.yaml>
     # Will create based on params in specified yaml file.
 
@@ -29,9 +35,73 @@ Uselful Commands
 
 kubernetes structure
 
-nodes -> containers -> pods -> apps
 
-Kubernetes yaml Structure
+(cluster (master node -> containers -> pods -> apps)(nodes -> containers -> pods -> apps)(nodes -> containers -> pods -> apps))
+
+### NODES ###
+  - Master Node - Manage, Plan, Schedule Monitor nodes
+    + API Server - Orchestrates all operations and allows external users to interact w/ API
+    + ETCD Service - A DB that stores info in 'key:value'
+    + Kubelet Service - Runs on each node in a cluster and deploys/destroys containers, gives status to api etc
+    + Container Runtime - Runs containers, docker, rkt, container D
+    + Controllers - multiple Controllers: Controller-Manager/Node Controller / replication controller
+    + Schedulers - Identifies the right node to put the container on based on resource reqs/ policies/ etc
+
+  - Worker/minion node: Host applications as containers
+  - Taints are applied to Nodes which only accept pods with certain tolerations
+    + configured in the yaml file
+
+  ##### Components #####
+
+### API Server ###
+ - Primary management Component
+ - Auths request from user given command to give info
+ - Center of All tasks involved in making  a change in the server
+ - Interacts directly with ETCD datastore
+
+### ETCD ###
+ - Key value store
+    + key:value
+ - Runs in a pod, on the master node
+ - Stores info on Nodes/Pods/Configs/Secrets/Accounts/Roles/Bindings/Other
+    + Changes made to above objects only considered complete after ETCD is updated
+ - Will need to be installed and ran as a service
+ - In HA environment there will be multiple ETCD across multuiple master nodes
+    + They will need to know above eachother
+
+### Kubelet Service ###
+ - Register with cluster
+ - Report on status of node
+ - Will request runtime to pull images
+ - 
+### Container Runtime ###
+
+### Controllers ###:w!
+ - Continuously monitors system and brings systems to desired functioning state
+ - Multiple types of controlls
+    + Controller Manager - Installs all controller as well.
+    + Node Controller - Check status of nodes every 5sec, after 40sec it gets mark unreachable. After 5 min pod eviction timeout occurs
+    + Replication Controller - Monitors replica sets and monitors status of desired number of replicas
+
+### Schedulers ###
+ - Only responsible for deciding what pod goes where.
+ - Prioritizes under utilzied nodes, can be configured.
+
+##### Kubernetes yaml Structure #####
+  apiVersion: 
+  kind: #Type of obejct
+  metadata: #data about the object name/label
+   name:
+   labels: 
+    app:
+    type: # good for filtering
+    tier:
+
+  spec: # is a dictionary
+   containers: # list/array
+    - name: # '-' indicates first item in the list
+      iamge: 
+
 
 
 Replica Sets (RS)
@@ -41,7 +111,7 @@ Replica Sets (RS)
   ### RELATED COMMANDS ###
   - kubectl edit replicaset <name of replica set (NORS)>
       # Will open config of replica set in editor 
-  - kubectk scale replicaset <NORS> --replicaset=2 
+  - kubectk scale --replicas=X replicaset <NORS> --replicaset=2 
       #scales RS to desired amount
 
 
@@ -76,4 +146,23 @@ Networking
   # Kubernetes does not automatically set up any networking and expects us to set it up
     + containers/Pods can communicate to one another w/o NAT
     + All nodes can communicate with all containers and vice versa without NAT
+  # 3rd party solutions can be used to handle basic routing
+
+Services
+ - Allows for communications with various components inside and out i.e users using front end which is ocmmunicating with the backend which is communicating with an external DB
+ - Listens to port on node and forwards requests
+  # Node Port Service
+ - Services Can be 
+  # Node Port -  Service Port Maps Node port to pod port ( target port) 
+  # ClusterIP
+  # LoadBalancer
+  #
+
+
+
+
+
+
+
+
 
